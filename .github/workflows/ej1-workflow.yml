@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  ej1-examenadsys:
+    runs-on: ubuntu-latest
+    steps:
+    - name: descargarCodigo
+      uses: actions/checkout@v4
+
+    - name: fijarversNode
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: ejecComandos
+      run: |
+        npm i
+        npm test
+
+    - name: construirImagen
+      uses: cloudposse/github-action-docker-compose-test-run@main
+      with:
+        file: docker-compose.yml
+        service: app
